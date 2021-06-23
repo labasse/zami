@@ -1,4 +1,6 @@
 {
+    "name": "modula/zami",
+    "description": "Zami renting application",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",

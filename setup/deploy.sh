@@ -1,8 +1,11 @@
 #!/bin/bash
 
 tmpfile=$(mktemp)
+archive=~/$1/$(basename $tmpfile).tar.gz
 tar -czf $tmpfile .
-scp $tmpfile deploy:~/$1/$tmpfile.tar.gz
+
+ssh deploy "rm -rf ~/$1/*"
+scp $tmpfile deploy:$archive
 rm $tmpfile
-ssh deploy "tar xvzf $tmpfile.tar.gz"
-ssh deploy "rm $tmpfile.tar.gz"
+ssh deploy "tar xvzf $archive"
+ssh deploy "rm $archive"

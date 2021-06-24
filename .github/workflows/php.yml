@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  Build-Publish :
 
     runs-on: ubuntu-18.04
 
@@ -46,3 +46,7 @@ jobs:
         key: ${{ secrets.DEPLOY_SSH_KEY }}
         source: "./*"
         target: "/home/zami/dev"
+    
+    - name: Test publish
+      run: test -ge 300 curl -I http://dev.zami.syllab.com 2>/dev/null | head -n 1 | cut -d ' ' -f2
+

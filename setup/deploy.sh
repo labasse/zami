@@ -7,5 +7,5 @@ tar -czf $tmpfile .
 ssh deploy "rm -rf $1/*"
 scp $tmpfile deploy:$archive
 rm $tmpfile
-ssh deploy "tar xvzf $archive -C $1"
+ssh deploy "tar xzf $archive -C $1"
 ssh deploy "rm $archive"

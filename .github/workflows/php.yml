@@ -52,11 +52,11 @@ jobs:
           END
 
     - name: Deploy Dev
-      run: ./deploy.sh dev
+      run: bash ./setup/deploy.sh dev
 
     - name: Test publish
       run:  test `curl -I http://dev.zami.syllab.com 2>/dev/null | head -n 1 | cut -d ' ' -f2` -lt 300
 
     - name: Deploy Test
-      run: ./deploy.sh test
+      run: bash ./setup/deploy.sh test
     

@@ -1,3 +1,5 @@
+echo $1
+echo "-------------"
 mkdir -p ~/.ssh/
 echo $3 > ~/.ssh/deploy.key
 chmod 600 ~/.ssh/deploy.key

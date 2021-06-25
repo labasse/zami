@@ -43,43 +43,20 @@ jobs:
         name: zami-app
         path: |
           ./
-          !vendor
           !var
           !.*
           
   Publish-Dev :
-
     runs-on: ubuntu-20.04
-    
     needs: Build
-    
     steps:
-    - name: Get build artifact
-      uses: actions/download-artifact@v2.0.10
+    
+    - uses: actions/download-artifact@v2.0.10
       with:
         name: zami-app
 
-    - name: Stat
-      run: |
-        id -Gn
-        ls -ail . ./setup/*
-
     - name: Configure SSH
-      env:
-        SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
-        SSH_USER: ${{ secrets.DEPLOY_SSH_USER }}
-        SSH_HOST: ${{ secrets.DEPLOY_SSH_HOST }}
-      run: |
-          mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/deploy.key
-          chmod 600 ~/.ssh/deploy.key
-          cat >>~/.ssh/config <<END
-          Host deploy
-            HostName $SSH_HOST
-            User $SSH_USER
-            IdentityFile ~/.ssh/deploy.key
-            StrictHostKeyChecking no
-          END
+      run: bash ./setup/sshconf.sh  ${{ secrets.DEPLOY_SSH_HOST }} ${{ secrets.DEPLOY_SSH_USER }} "${{ secrets.DEPLOY_SSH_KEY }}"
 
     - name: Deploy Dev
       run: bash ./setup/deploy.sh dev
@@ -87,35 +64,17 @@ jobs:
     - name: Test publish
       run:  test `curl -I http://dev.zami.syllab.com 2>/dev/null | head -n 1 | cut -d ' ' -f2` -lt 300
 
-  # TODO : DRY
   Publish-Test :
-
     runs-on: ubuntu-20.04
-    
     needs: Publish-Dev
-    
     steps:
-    - name: Get build artifact
-      uses: actions/download-artifact@v2.0.10
+
+    - uses: actions/download-artifact@v2.0.10
       with:
         name: zami-app
 
     - name: Configure SSH
-      env:
-        SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
-        SSH_USER: ${{ secrets.DEPLOY_SSH_USER }}
-        SSH_HOST: ${{ secrets.DEPLOY_SSH_HOST }}
-      run: |
-          mkdir -p ~/.ssh/
-          echo "$SSH_KEY" > ~/.ssh/deploy.key
-          chmod 600 ~/.ssh/deploy.key
-          cat >>~/.ssh/config <<END
-          Host deploy
-            HostName $SSH_HOST
-            User $SSH_USER
-            IdentityFile ~/.ssh/deploy.key
-            StrictHostKeyChecking no
-          END
+      run: bash ./setup/sshconf.sh  ${{ secrets.DEPLOY_SSH_HOST }} ${{ secrets.DEPLOY_SSH_USER }} "${{ secrets.DEPLOY_SSH_KEY }}"
 
     - name: Deploy Test
       run: bash ./setup/deploy.sh test

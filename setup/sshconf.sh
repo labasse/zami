@@ -1,10 +1,10 @@
 mkdir -p ~/.ssh/
-echo $3 > ~/.ssh/deploy.key
+echo $SSH_KEY > ~/.ssh/deploy.key
 chmod 600 ~/.ssh/deploy.key
 cat >>~/.ssh/config <<END
     Host deploy
-    HostName $1
-    User $2
+    HostName $SSH_HOST
+    User $SSH_USER
     IdentityFile ~/.ssh/deploy.key
     StrictHostKeyChecking no
 END

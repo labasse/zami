@@ -8,9 +8,7 @@ on:
 
 jobs:
   Build :
-
     runs-on: ubuntu-18.04
-
     steps:
     - uses: actions/checkout@v2
 
@@ -50,7 +48,6 @@ jobs:
     runs-on: ubuntu-20.04
     needs: Build
     steps:
-    
     - uses: actions/download-artifact@v2.0.10
       with:
         name: zami-app
@@ -68,7 +65,6 @@ jobs:
     runs-on: ubuntu-20.04
     needs: Publish-Dev
     steps:
-
     - uses: actions/download-artifact@v2.0.10
       with:
         name: zami-app

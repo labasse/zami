@@ -82,7 +82,7 @@ jobs:
           END
 
     - name: Deploy Dev
-      run: ./setup/deploy.sh dev
+      run: bash ./setup/deploy.sh dev
 
     - name: Test publish
       run:  test `curl -I http://dev.zami.syllab.com 2>/dev/null | head -n 1 | cut -d ' ' -f2` -lt 300
@@ -118,8 +118,6 @@ jobs:
           END
 
     - name: Deploy Test
-      run: |
-        chmod +x ./setup/deploy.sh
-        ./setup/deploy.sh test
+      run: bash ./setup/deploy.sh test
     
 

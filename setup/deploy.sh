@@ -2,8 +2,9 @@
 
 tmpfile=$(mktemp)
 archive=./$(basename $tmpfile).tar.gz
-tar -czf $tmpfile .
+tar -czf $tmpfile.tar.gz .
+cp ./setup/install.sh $tmpfile.sh
 
-scp $tmpfile deploy:$archive
+scp $tmpfile.* deploy:.
 rm $tmpfile
-ssh deploy "bash ./$1/setup/install.sh $archive $1"
+ssh deploy "bash ./$tmpfile.sh $archive $1"

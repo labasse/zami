@@ -42,6 +42,7 @@ jobs:
       with:
         name: zami-app
         path: |
+          ./
           !vendor
           !var
           !.*

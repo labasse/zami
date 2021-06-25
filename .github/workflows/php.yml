@@ -54,7 +54,7 @@ jobs:
         name: zami-app
 
     - name: Configure SSH
-      run: bash ./setup/sshconf.sh  ${{ secrets.DEPLOY_SSH_HOST }} ${{ secrets.DEPLOY_SSH_USER }} "${{ secrets.DEPLOY_SSH_KEY }}"
+      run: bash ./setup/sshconf.sh  ${{ secrets.DEPLOY_SSH_HOST }} ${{ secrets.DEPLOY_SSH_USER }} ${{ secrets.DEPLOY_SSH_KEY }}
 
     - name: Deploy Dev
       run: bash ./setup/deploy.sh dev
@@ -71,7 +71,7 @@ jobs:
         name: zami-app
 
     - name: Configure SSH
-      run: bash ./setup/sshconf.sh  ${{ secrets.DEPLOY_SSH_HOST }} ${{ secrets.DEPLOY_SSH_USER }} "${{ secrets.DEPLOY_SSH_KEY }}"
+      run: bash ./setup/sshconf.sh  ${{ secrets.DEPLOY_SSH_HOST }} ${{ secrets.DEPLOY_SSH_USER }} ${{ secrets.DEPLOY_SSH_KEY }}
 
     - name: Deploy Test
       run: bash ./setup/deploy.sh test

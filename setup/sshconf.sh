@@ -1,7 +1,7 @@
 #!/bin/bash
 
 mkdir -p ~/.ssh/
-echo $SSH_KEY > ~/.ssh/deploy.key
+echo "$SSH_KEY" > ~/.ssh/deploy.key
 chmod 600 ~/.ssh/deploy.key
 cat >>~/.ssh/config <<END
     Host deploy

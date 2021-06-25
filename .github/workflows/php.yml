@@ -59,8 +59,10 @@ jobs:
       with:
         name: zami-app
 
-    - name: LS
-      run: ls -ail
+    - name: Stat
+      run: |
+        id -Gn
+        ls -ail . ./setup/*
 
     - name: Configure SSH
       env:

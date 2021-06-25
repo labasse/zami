@@ -113,6 +113,8 @@ jobs:
           END
 
     - name: Deploy Test
-      run: bash ./setup/deploy.sh test
+      run: |
+        chmod +x ./setup/deploy.sh
+        ./setup/deploy.sh test
     
 

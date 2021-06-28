@@ -40,6 +40,7 @@ class Friend
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     *
      */
     private $Tags;
 
@@ -103,12 +104,15 @@ class Friend
 
     public function setTags(?string $Tags): self
     {
+        if($Tags==="") {
+            throw new \InvalidArgumentException("Tags cannot be empty");
+        }
         $this->Tags = $Tags;
         return $this;
     }
 
     public function getTagNum(): int
     {
-        return count(explode(',', $this->Tags));
+        return $this->Tags===null ? 0 : count(explode(',', $this->Tags));
     }
 }

@@ -31,19 +31,19 @@ jobs:
       run: composer install --prefer-dist --no-progress
 
     - name: Lint yaml
-      run: ./bin/console lint:yaml config --parse-tags
+      run: php ./bin/console lint:yaml config --parse-tags
 
     - name: Lint Twig templates
-      run: ./bin/console lint:twig templates --env=prod
+      run: php ./bin/console lint:twig templates --env=prod
 
     - name: Lint XLIFF translations
-      run: ./bin/console lint:xliff translations
+      run: php ./bin/console lint:xliff translations
 
     - name: Lint Parameters and Services
-      run: ./bin/console lint:container --no-debug
+      run: php ./bin/console lint:container --no-debug
 
     - name: Lint Doctrine entities
-      run: ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
+      run: php ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
 
     - name: Lint Composer config
       run: composer validate --strict

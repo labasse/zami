@@ -3,6 +3,8 @@
 namespace App\Tests\Entity;
 
 use App\Entity\Friend;
+use App\Entity\Vat;
+use App\System\ClockInterface;
 use PHPUnit\Framework\TestCase;
 
 class FriendTest extends TestCase
@@ -23,7 +25,38 @@ class FriendTest extends TestCase
 
     public function testSetBirthDate()
     {
+        $friend = new Friend();
 
+        $friend->setBirthDate(new \DateTime('1965-02-11 19:00'));
+
+        $this->assertEquals(new \DateTime('1965-02-11 19:00'), $friend->getBirthDate());
+    }
+
+    public function testSetBirthDateToNow()
+    {
+        // Arrange
+        $fakeClock = $this->createMock(ClockInterface::class);
+        $fakeClock->method('getNow')->willReturn(new \DateTime('2021-06-30 10:24'));
+
+        $friend = new Friend();
+        $friend->setClock($fakeClock);
+
+        // Act
+        $friend->setBirthDate(new \DateTime('2021-06-30 10:24'));
+
+        // Assert
+        $this->assertEquals(new \DateTime('2021-06-30 10:24'), $friend->getBirthDate());
+    }
+
+    public function testSetPrice() {
+        $friend = new Friend();
+        $vat = $this->createMock(Vat::class);
+        $vat->method('getRate')->willReturn(0.50);
+
+        $friend->setPrice(1000);
+
+        $this->assertEquals(1000, $friend->getPrice());
+        $this->assertEquals(1500, $friend->getPriceTaxInc($vat));
     }
 
     public function testSetFirsName()
@@ -93,6 +126,7 @@ class FriendTest extends TestCase
         $this->assertEquals("Homme", $friend->getTags());
         $this->assertEquals(1, $friend->getTagNum());
     }
+
 
     public function testSetTagsSuccessiveComasThrowsException()
     {

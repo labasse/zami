@@ -30,11 +30,30 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
+    - name: Lint yaml
+      run: ./bin/console lint:yaml config --parse-tags
+
+    - name: Lint Twig templates
+      run: ./bin/console lint:twig templates --env=prod
+
+    - name: Lint XLIFF translations
+      run: ./bin/console lint:xliff translations
+
+    - name: Lint Parameters and Services
+      run: ./bin/console lint:container --no-debug
+
+    - name: Lint Doctrine entities
+      run: ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
+
+    - name: Lint Composer config
+      run: composer validate --strict
+
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
-    # - name: Run test suite
-    #   run: composer run-script test
+    - name: Run test suite
+      run: php ./bin/phpunit
+    
     - name: Archive artifacts
       uses: actions/upload-artifact@v2.2.4
       with:
@@ -43,7 +62,7 @@ jobs:
           ./
           !vendor
           !var
-          !.*
+          !.*      
           
   Publish-Dev :
     runs-on: ubuntu-20.04

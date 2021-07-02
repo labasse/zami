@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\FriendRepository;
+use App\System\ClockInterface;
+use App\System\SystemClock;
 use Doctrine\ORM\Mapping as ORM;
 use http\Exception\InvalidArgumentException;
 
@@ -44,6 +46,21 @@ class Friend
      */
     private $Tags;
 
+    /**
+     * @ORM\Column(type="decimal", precision=2, scale=8, nullable=true)
+     *
+     */
+    private $Price;
+
+    /**
+     * @var ClockInterface
+     */
+    private $clock;
+
+    public function __construct() {
+        $this->clock = new SystemClock();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -73,13 +90,38 @@ class Friend
         return $this;
     }
 
+    public function getPrice(): ?float
+    {
+        return $this->Price;
+    }
+
+    public function setPrice(float $Price): self
+    {
+        $this->Price = $Price;
+
+        return $this;
+    }
+
+    public function getPriceTaxInc(Vat $vat) : float
+    {
+        return $this->Price * (1+$vat->getRate());
+    }
+
     public function getBirthDate(): ?\DateTimeInterface
     {
         return $this->BirthDate;
     }
 
+
+    public function setClock(ClockInterface $clock) {
+        $this->clock = $clock;
+    }
+
     public function setBirthDate(\DateTimeInterface $BirthDate): self
     {
+        if($BirthDate > $this->clock->getNow()) {
+            throw new \InvalidArgumentException("Birth date must be in the past");
+        }
         $this->BirthDate = $BirthDate;
 
         return $this;

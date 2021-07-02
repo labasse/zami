@@ -52,7 +52,7 @@ jobs:
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
     - name: Run test suite
-      run: php ./bin/phpunit
+      run: php ./bin/phpunit .
     
     - name: Archive artifacts
       uses: actions/upload-artifact@v2.2.4

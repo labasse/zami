@@ -33,17 +33,17 @@ jobs:
     - name: Lint yaml
       run: php ./bin/console lint:yaml config --parse-tags
 
-    - name: Lint Twig templates
-      run: php ./bin/console lint:twig templates --env=prod
+    #- name: Lint Twig templates
+    #  run: php ./bin/console lint:twig templates --env=prod
 
-    - name: Lint XLIFF translations
-      run: php ./bin/console lint:xliff translations
+    #- name: Lint XLIFF translations
+    #  run: php ./bin/console lint:xliff translations
 
     - name: Lint Parameters and Services
       run: php ./bin/console lint:container --no-debug
 
-    - name: Lint Doctrine entities
-      run: php ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
+    #- name: Lint Doctrine entities
+    #  run: php ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
 
     - name: Lint Composer config
       run: composer validate --strict
